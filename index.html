@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContractRedFlag</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">CM</div><div><strong>ClauseMe</strong><span>RedFlag</span></div></div>
+      <div class="sidebar-label">WORKSPACE</div>
+      <button class="nav-item active"><span>⌁</span> Investigation</button>
+      <button class="nav-item" onclick="loadDemo()"><span>◫</span> Demo Contract</button>
+      <div class="sidebar-bottom">
+        <div class="agent-mini"><span class="status-dot"></span><div><b>Project by Spparsh ;)</b><small>Ready to kill the BS</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">BUST THE BS BEFORE YOU SIGN</p>
+          <h1>Find the clauses you should <span>look twice at.</span></h1>
+          <p class="subhead">Upload a contract and let the agent inspect clauses, identify risks, and explain why they matter.</p>
+        </div>
+        <div class="top-status"><span class="status-dot"></span> Agent ready</div>
+      </header>
+
+      <section id="uploadView" class="upload-view">
+        <div class="upload-card">
+          <div class="upload-icon">↑</div>
+          <h2>Drop your contract here</h2>
+          <p>Start with a .txt file, or use the built-in demo contract.</p>
+          <div class="upload-actions">
+            <label class="primary-btn">Choose .txt file<input id="fileInput" type="file" accept=".txt,text/plain" hidden></label>
+            <button class="secondary-btn" onclick="loadDemo()">Try demo contract</button>
+          </div>
+          <p class="tiny">Prototype note: this version analyzes text locally through the FastAPI backend.</p>
+        </div>
+        <div class="feature-row">
+          <div><b>01</b><strong>Detect</strong><span>Find suspicious or important clauses.</span></div>
+          <div><b>02</b><strong>Investigate</strong><span>Connect clauses with contract context.</span></div>
+          <div><b>03</b><strong>Explain</strong><span>Turn legal wording into plain language.</span></div>
+        </div>
+      </section>
+
+      <section id="loadingView" class="loading-view hidden">
+        <div class="loader-orb"><div></div></div>
+        <p class="eyebrow">AGENT INVESTIGATION</p>
+        <h2 id="loadingTitle">Reading the contract...</h2>
+        <p id="loadingStep">Parsing document structure</p>
+        <div class="progress"><div id="progressBar"></div></div>
+        <div class="agent-steps">
+          <div id="step1" class="agent-step"><i>✓</i> Parse contract</div>
+          <div id="step2" class="agent-step"><i>2</i> Find risk patterns</div>
+          <div id="step3" class="agent-step"><i>3</i> Investigate context</div>
+          <div id="step4" class="agent-step"><i>4</i> Generate report</div>
+        </div>
+      </section>
+
+      <section id="resultsView" class="results-view hidden">
+        <div class="results-head">
+          <div><p class="eyebrow">INVESTIGATION COMPLETE</p><h2 id="contractName">Contract report</h2></div>
+          <button class="secondary-btn" onclick="resetApp()">← New contract</button>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card total"><span>Total clauses</span><strong id="totalClauses">0</strong></div>
+          <div class="summary-card high"><span>High risk</span><strong id="highCount">0</strong></div>
+          <div class="summary-card medium"><span>Medium risk</span><strong id="mediumCount">0</strong></div>
+          <div class="summary-card low"><span>Low / normal</span><strong id="lowCount">0</strong></div>
+        </div>
+
+        <div class="report-grid">
+          <div class="panel">
+            <div class="panel-head"><div><p class="eyebrow">CLAUSE MAP</p><h3>Agent findings</h3></div><span id="engineBadge" class="engine-badge">RULE + AI</span></div>
+            <div id="findingsList" class="findings-list"></div>
+          </div>
+          <div class="panel agent-panel">
+            <div class="panel-head"><div><p class="eyebrow">AGENT TRACE</p><h3>What the agent did</h3></div></div>
+            <div id="traceList" class="trace-list"></div>
+            <div class="disclaimer">Prototype only. ContractRedFlag is not a lawyer or a substitute for professional legal advice.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="detailModal" class="modal hidden">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div id="modalContent"></div>
+      <div class="ask-box">
+        <input id="askInput" placeholder="Ask the agent about this clause...">
+        <button onclick="askAgent()">Ask</button>
+      </div>
+      <div id="askAnswer" class="ask-answer hidden"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
